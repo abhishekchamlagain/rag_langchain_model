@@ -1,0 +1,13 @@
+RAG, or Retrieval-Augmented Generation, is a technique that combines information retrieval with text generation. Instead of relying only on what a language model learned during training, RAG lets the model pull in relevant external documents at query time, then use those documents as context to generate an answer.
+
+The core idea behind RAG is simple: a language model's internal knowledge is frozen at training time and can become outdated or incomplete. By retrieving fresh, relevant text from an external knowledge base, the model can answer questions about recent events, private company data, or niche topics it was never trained on.
+
+A typical RAG pipeline has two phases. The indexing phase happens once: documents are collected, parsed into clean text, split into chunks, converted into vector embeddings, and stored in a vector database. The query phase happens every time a user asks something: the query is embedded, the vector database is searched for the most similar chunks, and those chunks are inserted into a prompt sent to the language model.
+
+Chunking strategy matters a lot in RAG systems. If chunks are too large, irrelevant information gets mixed in with relevant information, diluting the context. If chunks are too small, important context might get split across multiple chunks and lose coherence. Common approaches use a fixed token or word count per chunk with some overlap between consecutive chunks so information near chunk boundaries is not lost.
+
+Embeddings are numerical vector representations of text where semantically similar pieces of text end up close together in vector space. Embedding models are trained so that sentences with similar meaning produce vectors with a small distance between them, even if the exact wording is very different. This is what allows semantic search to work, as opposed to simple keyword matching.
+
+FAISS, developed by Meta AI, is a library for efficient similarity search over large sets of vectors. It can be used entirely locally without any external database service, which makes it a common choice for prototyping and learning how vector search works before moving to a production database like Pinecone, Weaviate, or Chroma.
+
+There is a family of more advanced RAG variants beyond the naive pipeline. Advanced RAG adds steps like query rewriting and re-ranking of retrieved chunks. Modular RAG treats the pipeline as swappable components and can include hybrid search, routing between multiple knowledge sources, iterative retrieval, and agentic behavior where the model decides when and what to retrieve.
